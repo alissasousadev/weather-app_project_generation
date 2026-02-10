@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kawaii Weather | Previsão do Tempo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/style/index.css">
+</head>
+
+<body>
+    <!-- Background System -->
+    <div class="background-system" id="backgroundSystem">
+        <div class="background-overlay"></div>
+    </div>
+
+    <!-- Floating Hearts -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- API Modal -->
+    <div class="api-modal" id="apiModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-cloud-heart"></i>
+            </div>
+            <h2 class="modal-title">Olá! 💕 Conectar à API</h2>
+            <p class="modal-text">
+                Para ter acesso a dados meteorológicos kawaii em tempo real de mais de 200,000 cidades,
+                você precisa de uma chave API gratuita da OpenWeatherMap.
+            </p>
+            <div class="api-input-container">
+                <input type="text" id="apiKeyInput" class="api-input"
+                    placeholder="Cole sua chave API aqui (ex: a1b2c3d4e5f6g7h8i9j0)">
+            </div>
+            <button class="api-submit" id="saveApiKey">
+                <i class="fas fa-heart"></i> Conectar & Iniciar
+            </button>
+            <div class="modal-footer">
+                <a href="https://openweathermap.org/api" target="_blank" class="api-link">
+                    <i class="fas fa-external-link-alt"></i> Obter chave API gratuita
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3 class="loading-text" id="loadingText">Buscando dados kawaii...</h3>
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage">
+        <div class="error-content">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="error-text" id="errorText"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-circle">
+                        <i class="fas fa-heart logo-icon"></i>
+                    </div>
+                </div>
+                <div class="title-container">
+                    <h1>Kawaii <span>Weather</span></h1>
+                </div>
+            </div>
+            <p class="header-subtitle">
+                Previsão do tempo com dados em tempo real ☀️🌙💕
+            </p>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span class="status-text" id="statusText">API não configurada</span>
+            </div>
+            <div class="status-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="apiCalls">0</div>
+                    <div class="stat-label">Requisições</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="responseTime">0ms</div>
+                    <div class="stat-label">Resposta</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="lastUpdate">--:--</div>
+                    <div class="stat-label">Última Busca</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="cityInput" class="search-input"
+                        placeholder="Digite o nome da cidade (ex: São Paulo, Paris, Tokyo...)"
+                        value="São Paulo">
+                    <button class="search-button" id="searchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <button class="location-button" id="locationButton">
+                    <i class="fas fa-location-dot"></i> Usar Minha Localização
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="content-wrapper" id="contentWrapper">
+            <!-- Current Weather -->
+            <section class="current-weather">
+                <div class="weather-header">
+                    <div class="location-info">
+                        <h2 id="cityName">São Paulo, Brasil</h2>
+                        <p class="location-date" id="currentDate">
+                            <i class="far fa-calendar-alt"></i> Carregando dados...
+                        </p>
+                    </div>
+                    <div class="unit-selector">
+                        <button class="unit-button active" data-unit="metric">°C</button>
+                        <button class="unit-button" data-unit="imperial">°F</button>
+                    </div>
+                </div>
+
+                <div class="weather-display">
+                    <div class="temperature-section">
+                        <div class="current-temperature" id="temperature">--°</div>
+                        <div class="weather-condition" id="weatherCondition">--</div>
+                    </div>
+                    <div class="weather-icon-container">
+                        <div class="icon-glow"></div>
+                        <div class="weather-icon-large" id="weatherIcon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3 id="feelsLike">--°</h3>
+                            <p>Sensação Térmica</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-droplet"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3 id="humidity">--%</h3>
+                            <p>Umidade do Ar</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3 id="windSpeed">-- km/h</h3>
+                            <p>Velocidade do Vento</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-gauge"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3 id="pressure">-- hPa</h3>
+                            <p>Pressão Atmosférica</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Forecast Sidebar -->
+            <aside class="forecast-sidebar">
+                <div class="sidebar-header">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-calendar-days"></i> Previsão
+                    </h3>
+                    <div class="forecast-toggle">
+                        <button class="active" data-type="daily">5 Dias</button>
+                    </div>
+                </div>
+                <div class="forecast-list" id="forecastList">
+                    <!-- Forecast items will be inserted here -->
+                </div>
+            </aside>
+        </div>
+
+        <!-- Additional Info -->
+        <section class="additional-info" id="additionalInfo">
+            <h3 class="info-title">
+                <i class="fas fa-star"></i> Informações Especiais
+            </h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="info-value" id="sunrise">--:--</div>
+                    <div class="info-label">Nascer do Sol</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="info-value" id="sunset">--:--</div>
+                    <div class="info-label">Pôr do Sol</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="info-value" id="visibility">-- km</div>
+                    <div class="info-label">Visibilidade</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-cloud-rain"></i>
+                    </div>
+                    <div class="info-value" id="precipitation">--%</div>
+                    <div class="info-label">Precipitação</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="info-value" id="cloudiness">--%</div>
+                    <div class="info-label">Nebulosidade</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-snowflake"></i>
+                    </div>
+                    <div class="info-value" id="dewPoint">--°</div>
+                    <div class="info-label">Ponto de Orvalho</div>
+                </div>
+
+                <div class="info-card tide-card">
+                    <div class="info-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <div class="info-value" id="tideHigh">--:--</div>
+                    <div class="info-label">Maré Alta</div>
+                </div>
+
+                <div class="info-card tide-card">
+                    <div class="info-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="info-value" id="tideLow">--:--</div>
+                    <div class="info-label">Maré Baixa</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <p class="footer-text">
+                    Kawaii Weather é uma aplicação meteorológica que combina dados em tempo real
+                    da OpenWeatherMap. 💕
+                </p>
+                <div class="footer-stats">
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="totalCities">1</div>
+                        <div class="footer-stat-label">Cidades Consultadas</div>
+                    </div>
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="apiStatusFooter">Offline</div>
+                        <div class="footer-stat-label">Status da API</div>
+                    </div>
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="appVersion">1.0</div>
+                        <div class="footer-stat-label">Versão do App</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./assets/script/app.js"></script>
+</body>
+
+</html>
