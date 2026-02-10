@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 340 100% 97%;
+    --foreground: 340 80% 30%;
+
+    --card: 340 100% 96%;
+    --card-foreground: 340 80% 30%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 80% 30%;
+
+    --primary: 330 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 340 100% 88%;
+    --secondary-foreground: 330 100% 40%;
+
+    --muted: 340 60% 93%;
+    --muted-foreground: 330 40% 55%;
+
+    --accent: 340 100% 95%;
+    --accent-foreground: 330 100% 40%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 330 60% 85%;
+    --input: 330 60% 85%;
+    --ring: 330 100% 50%;
+
+    --radius: 1.25rem;
+
+    /* Kawaii custom tokens */
+    --kawaii-pink: 330 100% 50%;
+    --kawaii-pink-dark: 330 100% 45%;
+    --kawaii-pink-light: 340 100% 88%;
+    --kawaii-rose: 340 100% 97%;
+    --kawaii-cream: 30 100% 97%;
+
+    --kawaii-gradient: linear-gradient(135deg, hsl(330, 100%, 50%) 0%, hsl(340, 100%, 60%) 100%);
+    --kawaii-gradient-soft: linear-gradient(135deg, hsl(340, 100%, 97%) 0%, hsl(340, 100%, 94%) 100%);
+    --kawaii-gradient-card: linear-gradient(135deg, hsla(0, 0%, 100%, 0.9) 0%, hsla(340, 100%, 97%, 0.9) 100%);
+
+    --kawaii-shadow-lg: 0 20px 60px hsla(330, 100%, 50%, 0.15);
+    --kawaii-shadow-md: 0 10px 30px hsla(330, 100%, 50%, 0.1);
+    --kawaii-shadow-sm: 0 4px 12px hsla(330, 100%, 50%, 0.08);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 260 30% 10%;
+    --foreground: 280 60% 90%;
+
+    --card: 260 25% 14%;
+    --card-foreground: 280 60% 90%;
+
+    --popover: 260 25% 12%;
+    --popover-foreground: 280 60% 90%;
+
+    --primary: 290 80% 65%;
+    --primary-foreground: 260 30% 10%;
+
+    --secondary: 270 30% 22%;
+    --secondary-foreground: 290 80% 75%;
+
+    --muted: 260 20% 18%;
+    --muted-foreground: 280 30% 60%;
+
+    --accent: 270 25% 20%;
+    --accent-foreground: 290 80% 75%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 270 20% 25%;
+    --input: 270 20% 25%;
+    --ring: 290 80% 65%;
+
+    /* Kawaii night tokens */
+    --kawaii-pink: 290 80% 65%;
+    --kawaii-pink-dark: 290 80% 55%;
+    --kawaii-pink-light: 270 30% 22%;
+    --kawaii-rose: 260 30% 12%;
+    --kawaii-cream: 260 25% 14%;
+
+    --kawaii-gradient: linear-gradient(135deg, hsl(290, 80%, 65%) 0%, hsl(270, 60%, 55%) 100%);
+    --kawaii-gradient-soft: linear-gradient(135deg, hsl(260, 30%, 10%) 0%, hsl(270, 25%, 14%) 100%);
+    --kawaii-gradient-card: linear-gradient(135deg, hsla(260, 25%, 16%, 0.9) 0%, hsla(270, 25%, 14%, 0.9) 100%);
+
+    --kawaii-shadow-lg: 0 20px 60px hsla(290, 80%, 65%, 0.2);
+    --kawaii-shadow-md: 0 10px 30px hsla(290, 80%, 65%, 0.12);
+    --kawaii-shadow-sm: 0 4px 12px hsla(290, 80%, 65%, 0.08);
+
+    --sidebar-background: 260 25% 12%;
+    --sidebar-foreground: 280 60% 90%;
+    --sidebar-primary: 290 80% 65%;
+    --sidebar-primary-foreground: 260 30% 10%;
+    --sidebar-accent: 270 25% 20%;
+    --sidebar-accent-foreground: 280 60% 90%;
+    --sidebar-border: 270 20% 25%;
+    --sidebar-ring: 290 80% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Fredoka', sans-serif;
+  }
+}
+
+/* Kawaii Animations */
+@keyframes floatHeart {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.15); }
+  50% { transform: scale(1); }
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float-heart {
+  animation: floatHeart 15s infinite linear;
+}
+
+.animate-heartbeat {
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.animate-logo-float {
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  border-radius: 1.25rem;
+  z-index: 1;
+}
+
+/* Dark mode leaflet */
+.dark .leaflet-container {
+  filter: brightness(0.85) saturate(1.2) hue-rotate(20deg);
+}
+
+/* Kitty map marker - remove background artifacts */
+.kitty-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.kitty-marker img {
+  mix-blend-mode: multiply;
+}
+
+.dark .kitty-marker img {
+  mix-blend-mode: screen;
+}
